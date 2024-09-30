@@ -1,6 +1,6 @@
 // Min-Max function
 function minMax(depth, nodeIndex, isMaximizingPlayer, scores, height) {
-    // Base case: return the terminal node value (leaf)
+    // return the terminal node value 
     if (depth === height) {
         return scores[nodeIndex];
     }
@@ -21,7 +21,7 @@ function minMax(depth, nodeIndex, isMaximizingPlayer, scores, height) {
     }
 }
 
-// Scores at the terminal (leaf) nodes: [ -1, 3, 5, 1, -6, -4, 0, 9 ]
+// Scores at the terminal nodes
 const scores = [-1, 3, 5, 1, -6, -4, 0, 9];
 
 // Height of the tree (log base 2 of number of leaf nodes)
