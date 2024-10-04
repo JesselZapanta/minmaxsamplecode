@@ -1,33 +1,42 @@
-// Min-Max function
 function minMax(depth, nodeIndex, isMaximizingPlayer, scores, height) {
-    // return the terminal node value 
-    if (depth === height) {
-        return scores[nodeIndex];
-    }
+            // p tag 
+            const traceParagraph = document.getElementById('tracing');
+            
+            // show the output of the current stati
+            traceParagraph.innerHTML += `Depth: ${depth}, NodeIndex: ${nodeIndex}, isMaximizingPlayer: ${isMaximizingPlayer}<br>`;
 
-    // Maximizing player's turn
-    if (isMaximizingPlayer) {
-        return Math.max(
-            minMax(depth + 1, nodeIndex * 2, false, scores, height),
-            minMax(depth + 1, nodeIndex * 2 + 1, false, scores, height)
-        );
-    }
-    // Minimizing player's turn
-    else {
-        return Math.min(
-            minMax(depth + 1, nodeIndex * 2, true, scores, height),
-            minMax(depth + 1, nodeIndex * 2 + 1, true, scores, height)
-        );
-    }
-}
+            // Return the terminal node value 
+            if (depth === height) {
+                traceParagraph.innerHTML += `Returning terminal node value: ${scores[nodeIndex]}<br>`;
+                return scores[nodeIndex];
+            }
 
-// Scores at the terminal nodes
-const scores = [-1, 3, 5, 1, -6, -4, 0, 9];
+            // Maximizing
+            if (isMaximizingPlayer) {
+                const left = minMax(depth + 1, nodeIndex * 2, false, scores, height);
+                const right = minMax(depth + 1, nodeIndex * 2 + 1, false, scores, height);
+                const result = Math.max(left, right);
+                traceParagraph.innerHTML += `Maximizing at Depth: ${depth}, NodeIndex: ${nodeIndex}, Result: ${result}<br>`;
+                return result;
+            }
+            // Minimizing
+            else {
+                const left = minMax(depth + 1, nodeIndex * 2, true, scores, height);
+                const right = minMax(depth + 1, nodeIndex * 2 + 1, true, scores, height);
+                const result = Math.min(left, right);
+                traceParagraph.innerHTML += `Minimizing at Depth: ${depth}, NodeIndex: ${nodeIndex}, Result: ${result}<br>`;
+                return result;
+            }
+        }
 
-// Height of the tree (log base 2 of number of leaf nodes)
-const height = Math.log2(scores.length);
+        // Scores at the terminal nodes
+        const scores = [-1, 3, 5, 1, -6, -4, 0, 9];
 
-// Starting the min-max algorithm at depth 0, node index 0, with the maximizing player
-const optimalValue = minMax(0, 0, true, scores, height);
+        // Height of the tree (log base 2 of number of leaf nodes)
+        const height = Math.log2(scores.length);
 
-console.log("The optimal value is: " + optimalValue);
+        // Start the min-max algorithm at depth 0, node index 0, with the maximizing player
+        const optimalValue = minMax(0, 0, true, scores, height);
+
+        // Output the final optimal value
+        document.getElementById('tracing').innerHTML += `The optimal value is: ${optimalValue}`;
